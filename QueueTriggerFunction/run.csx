@@ -9,8 +9,9 @@ using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 
 public static void Run(string myQueueItem, ILogger log)
-{
-    log.LogInformation($"C# Queue trigger function processed: {myQueueItem}");    
+{    
+
+    log.LogInformation($"C# Queue trigger function processed: {myQueueItem}");        
     
     var cotacao = JsonConvert.DeserializeObject<Acao>(myQueueItem);
 
@@ -20,9 +21,9 @@ public static void Run(string myQueueItem, ILogger log)
         cotacao.Codigo = cotacao.Codigo.Trim().ToUpper();
 
         var storageAccount = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
-        var acaoTable = storageAccount.CreateCloudTableClient().GetTableReference("CotacaoAcoes");
+        var acaoTable = storageAccount.CreateCloudTableClient().GetTableReference(Environment.GetEnvironmentVariable("TableQuotation"));
         if (acaoTable.CreateIfNotExistsAsync().Result)
-            log.LogInformation("Criando a tabela CotacaoAcoes...");
+            log.LogInformation("Criando a tabela: " + Environment.GetEnvironmentVariable("TableQuotation"));
 
         AcaoEntity dadosAcao =
             new AcaoEntity(
@@ -34,7 +35,7 @@ public static void Run(string myQueueItem, ILogger log)
         var insertOperation = TableOperation.Insert(dadosAcao);
         var resultInsert = acaoTable.ExecuteAsync(insertOperation).Result;
 
-        log.LogInformation($"AcoesQueueTrigger: {myQueueItem}");
+        log.LogInformation($"QueueTriggerFunction: {myQueueItem}");
     }
     else
         log.LogError($"AcoesQueueTrigger - Erro validação: {myQueueItem}");

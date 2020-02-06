@@ -2,5 +2,6 @@
 Workshop Azure Function
 
 Em "configurations" criar um novo "Application Settings":
-    TableName: Table01
-    PartitionKey: log01
+    <p>TableName: Table01</p>
+    <p>PartitionKey: log01</p>
+    <p>TableQuotation: Quotation</p>

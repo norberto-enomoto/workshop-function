@@ -24,9 +24,6 @@ public static void Run(TimerInfo myTimer, ILogger log)
     var resultInsert = disponibilidadeTable.ExecuteAsync(insertOperation).Result;
 
     log.LogInformation($"**** Teste de disponibilidade executado em : {DateTime.Now}");
-
-
-
 }
 
 public class DisponibilidadeEntity : TableEntity

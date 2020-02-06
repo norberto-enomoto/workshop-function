@@ -30,7 +30,7 @@ public static async Task<IActionResult> Run(HttpRequest req, ILogger log)
    var storageAccount = CloudStorageAccount
         .Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
     var acaoTable = storageAccount
-        .CreateCloudTableClient().GetTableReference("CotacaoAcoes");
+        .CreateCloudTableClient().GetTableReference(Environment.GetEnvironmentVariable("TableQuotation"));
 
     var query = new TableQuery<AcaoEntity>().Where(
         TableQuery.GenerateFilterCondition("PartitionKey",
